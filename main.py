@@ -91,43 +91,15 @@ st.markdown(
         visibility: hidden;
     }
 
-    /* --- Sidebar collapse affordances: keep a visible tab both states --- */
-
-    /* Expanded state: the collapse (chevron) button stays visible */
+    /* --- Sidebar locked open: no collapse button, no collapsed tab --- */
     [data-testid="stSidebarCollapseButton"] {
-        visibility: visible;
-        opacity: 1;
-        color: var(--text-mid) !important;
-        background: var(--glass) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 50% !important;
-        backdrop-filter: blur(10px) saturate(150%);
-        -webkit-backdrop-filter: blur(10px) saturate(150%);
-        box-shadow: 0 6px 18px -8px rgba(0,0,0,0.6);
+        display: none !important;
+        visibility: hidden !important;
     }
-    [data-testid="stSidebarCollapseButton"]:hover {
-        color: var(--text-hi) !important;
-        background: var(--accent-soft) !important;
-    }
-
-    /* Collapsed state: the slim edge tab that reopens the sidebar */
     [data-testid="stSidebarCollapsed"] {
-        visibility: visible !important;
-        opacity: 1 !important;
-        z-index: 10;
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        border-right: none;
-        border-radius: 0 14px 14px 0;
-        backdrop-filter: blur(16px) saturate(150%);
-        -webkit-backdrop-filter: blur(16px) saturate(150%);
-        box-shadow: 6px 6px 24px -12px rgba(0,0,0,0.6);
-    }
-    [data-testid="stSidebarCollapsed"] button {
-        color: var(--text-mid);
-    }
-    [data-testid="stSidebarCollapsed"] button:hover {
-        color: var(--accent);
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
     }
 
 
@@ -207,24 +179,6 @@ st.markdown(
     .hero .tagline {
         color: var(--text-mid); font-size: 0.92rem; font-weight: 300;
         margin-top: 2px;
-    }
-
-    /* restore-sidebar button: glass pill, low emphasis */
-    [data-testid="stButton"] [kind="secondary"] {
-        background: var(--glass) !important;
-        backdrop-filter: blur(14px) saturate(150%);
-        -webkit-backdrop-filter: blur(14px) saturate(150%);
-        border: 1px solid var(--glass-border) !important;
-        color: var(--text-mid) !important;
-        border-radius: 999px !important;
-        padding: 0.35rem 1rem !important;
-        font-size: 0.85rem !important;
-        transition: all 0.2s ease;
-    }
-    [data-testid="stButton"] [kind="secondary"]:hover {
-        color: var(--text-hi) !important;
-        background: var(--accent-soft) !important;
-        border-color: var(--accent) !important;
     }
 
     /* ---------- Chat ---------- */
@@ -391,26 +345,6 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Main — Chat interface
 # ---------------------------------------------------------------------------
-# Always-available way to restore the sidebar if it ever gets collapsed/stuck.
-restore_clicked = st.button(
-    "☰ Open documents",
-    key="restore_sidebar",
-    help="Bring back the documents sidebar",
-    type="secondary",
-)
-if restore_clicked:
-    st.components.v1.html(
-        "<script>"
-        "Array.from(window.localStorage).forEach(function(k){"
-        "  if(k[0].indexOf('stSidebarCollapsed')===0)window.localStorage.removeItem(k[0]);"
-        "  if(k[0]==='sidebarNavState')window.localStorage.removeItem(k[0]);"
-        "});"
-        "</script>",
-        height=0,
-        width=0,
-    )
-    st.rerun()
-
 st.markdown(
     """
     <div class="hero">
