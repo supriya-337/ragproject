@@ -80,13 +80,56 @@ st.markdown(
         max-width: 1100px;
     }
 
-    /* Hide default chrome for a cleaner canvas */
+    /* Hide default chrome for a cleaner canvas (keep sidebar toggle visible) */
     header[data-testid="stHeader"] {
         background: transparent;
     }
-    #MainMenu, footer, [data-testid="stToolbar"] {
+    #MainMenu, footer {
         visibility: hidden;
     }
+    [data-testid="stToolbar"] {
+        visibility: hidden;
+    }
+
+    /* --- Sidebar collapse affordances: keep a visible tab both states --- */
+
+    /* Expanded state: the collapse (chevron) button stays visible */
+    [data-testid="stSidebarCollapseButton"] {
+        visibility: visible;
+        opacity: 1;
+        color: var(--text-mid) !important;
+        background: var(--glass) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: 50% !important;
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        box-shadow: 0 6px 18px -8px rgba(0,0,0,0.6);
+    }
+    [data-testid="stSidebarCollapseButton"]:hover {
+        color: var(--text-hi) !important;
+        background: var(--accent-soft) !important;
+    }
+
+    /* Collapsed state: the slim edge tab that reopens the sidebar */
+    [data-testid="stSidebarCollapsed"] {
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 10;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-right: none;
+        border-radius: 0 14px 14px 0;
+        backdrop-filter: blur(16px) saturate(150%);
+        -webkit-backdrop-filter: blur(16px) saturate(150%);
+        box-shadow: 6px 6px 24px -12px rgba(0,0,0,0.6);
+    }
+    [data-testid="stSidebarCollapsed"] button {
+        color: var(--text-mid);
+    }
+    [data-testid="stSidebarCollapsed"] button:hover {
+        color: var(--accent);
+    }
+
 
     /* ---------- Sidebar: glass card ---------- */
     [data-testid="stSidebar"] {
