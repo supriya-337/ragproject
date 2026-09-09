@@ -209,6 +209,24 @@ st.markdown(
         margin-top: 2px;
     }
 
+    /* restore-sidebar button: glass pill, low emphasis */
+    [data-testid="stButton"] [kind="secondary"] {
+        background: var(--glass) !important;
+        backdrop-filter: blur(14px) saturate(150%);
+        -webkit-backdrop-filter: blur(14px) saturate(150%);
+        border: 1px solid var(--glass-border) !important;
+        color: var(--text-mid) !important;
+        border-radius: 999px !important;
+        padding: 0.35rem 1rem !important;
+        font-size: 0.85rem !important;
+        transition: all 0.2s ease;
+    }
+    [data-testid="stButton"] [kind="secondary"]:hover {
+        color: var(--text-hi) !important;
+        background: var(--accent-soft) !important;
+        border-color: var(--accent) !important;
+    }
+
     /* ---------- Chat ---------- */
     [data-testid="stChatMessage"] {
         background: var(--glass);
@@ -373,6 +391,26 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Main — Chat interface
 # ---------------------------------------------------------------------------
+# Always-available way to restore the sidebar if it ever gets collapsed/stuck.
+restore_clicked = st.button(
+    "☰ Open documents",
+    key="restore_sidebar",
+    help="Bring back the documents sidebar",
+    type="secondary",
+)
+if restore_clicked:
+    st.components.v1.html(
+        "<script>"
+        "Array.from(window.localStorage).forEach(function(k){"
+        "  if(k[0].indexOf('stSidebarCollapsed')===0)window.localStorage.removeItem(k[0]);"
+        "  if(k[0]==='sidebarNavState')window.localStorage.removeItem(k[0]);"
+        "});"
+        "</script>",
+        height=0,
+        width=0,
+    )
+    st.rerun()
+
 st.markdown(
     """
     <div class="hero">
